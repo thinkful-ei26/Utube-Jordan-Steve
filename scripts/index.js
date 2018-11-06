@@ -61,6 +61,12 @@ function fetchVideos(searchTerm, callback) {
   $.ajax(settings);
 }
 
+fetchVideos('dogs', function(response) {
+  console.log(response);
+  console.log(response.items[1].snippet.title);
+  console.log(response.items[1].snippet.thumbnails.high.url);
+  console.log(response.items[1].id.videoId);
+});
 /**
  * @function decorateResponse
  * Uses Youtube API response to create an array of "decorated" video objects as
@@ -68,7 +74,20 @@ function fetchVideos(searchTerm, callback) {
  * @param   {object} response - should match Youtube API response shape
  * @returns {array}
  */
-
+function decorateResponse(response) {
+  arrayOfObjects = [];
+  videoObject = { id: '', title: '', thumbnail: '' };
+  fetchVideos('Thinkful', function(response) {
+    response.items.map(item => {
+      videoObject.title = item.snippet.title;
+      videoObject.thumbnail = item.snippet.thumbnails.high.url;
+      videoObject.videoId = item.snippet.videoId;
+      arrayOfObjects.push(videoObject);
+    });
+  });
+  console.log(arrayOfObjects);
+  return arrayOfObjects;
+}
 // TASK:
 // 1. Map through the response object's `items` array
 // 2. Return an array of objects, where each object contains the keys `id`, `title`,
@@ -77,7 +96,7 @@ function fetchVideos(searchTerm, callback) {
 //
 // TEST IT! Grab an example API response and send it into the function - make sure
 // you get back the object you want.
-const decorateResponse = function(response) {};
+// const decorateResponse = function(response) {};
 
 /**
  * @function generateVideoItemHtml
