@@ -253,11 +253,12 @@ function decorateResponse(response) {
     return response.items.map(item => {
       return {
       title: item.snippet.title,
-      thumbnail: item.snippet.thumbnails.high.url,
+      thumbnail: item.snippet.thumbnails.default.url,
       id: item.snippet.videoId,
-      }
+      };
     });
 }
+
 // TASK:
 // 1. Map through the response object's `items` array
 // 2. Return an array of objects, where each object contains the keys `id`, `title`,
@@ -277,9 +278,10 @@ function decorateResponse(response) {
 // 1. Using the decorated object, return an HTML string containing all the expected
 // TEST IT!
 const generateVideoItemHtml = function(video) {
+  console.log(video.thumbnail)
   return ` 
-    <li data-video-id="${video.id}">
-      <imc src="${video.thumbnail}" />
+    <li data-video-id="${video.id}" >
+     <img src="${video.thumbnail}" >
         <h3>${video.title}</h3>
     </li>
   `;
