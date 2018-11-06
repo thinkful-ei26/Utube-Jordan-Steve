@@ -241,12 +241,6 @@ function fetchVideos(searchTerm, callback) {
   $.getJSON(settings);
 }
 
-fetchVideos('dogs', function(response) {
-  // console.log(response);
-  // console.log(response.items[1].snippet.title);
-  // console.log(response.items[1].snippet.thumbnails.high.url);
-  // console.log(response.items[1].id.videoId);
-});
 /**
  * @function decorateResponse
  * Uses Youtube API response to create an array of "decorated" video objects as
@@ -291,8 +285,8 @@ const generateVideoItemHtml = function(video) {
   `;
 };
 
-const decoratedObjects = decorateResponse(MOCK_DATA);
-console.log(generateVideoItemHtml(decoratedObjects[0]));
+// const decoratedObjects = decorateResponse(MOCK_DATA);
+// console.log(generateVideoItemHtml(decoratedObjects[0]));
 
 /**
  * @function addVideosToStore
@@ -306,11 +300,6 @@ const addVideosToStore = function(videos) {
   store.videos = videos;
 };
 
-const videos = decorateResponse(MOCK_DATA);
-addVideosToStore(videos);
-
-
-
 /**
  * @function render
  * Responsible for scanning store and rendering the video list to DOM
@@ -323,12 +312,6 @@ const render = function() {
     const html = store.videos.map(video => generateVideoItemHtml(video));
     $('.results').html(html);
 };
-
-fetchVideos('dogs', (response) => {
-  const decorated = decorateResponse(response);
-  addVideosToStore(decorated);
-  render();
-});
 
 /**
  * @function handleFormSubmit
@@ -346,18 +329,22 @@ fetchVideos('dogs', (response) => {
 //      `addVideosToStore` function
 //   g) Inside the callback, run the `render` function
 // TEST IT!
+
 const handleFormSubmit = function() {
- $('.')on.('submit', event => {
+ $('form').on('submit', event => {
+   console.log(`this button has been clicked`)
    event.preventDefault();
-
-
-   render();
- })
+   const searchTerm = $('#search-term').val(); 
+   fetchVideos(searchTerm, function(response) {
+     const decorated = decorateResponse(response);
+     addVideosToStore(decorated);
+     render();
+   })
+ });
 
 };
 
 // When DOM is ready:
 $(function() {
-  // TASK:
-  // 1. Run `handleFormSubmit` to bind the event listener to the DOM
+  handleFormSubmit();
 });
